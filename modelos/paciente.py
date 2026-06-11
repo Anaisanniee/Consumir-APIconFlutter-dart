@@ -1,4 +1,4 @@
-from modelos.consultorio import db
+from modelos.base_datos import db
 
 class Paciente(db.Model):
     __tablename__ = 'paciente'

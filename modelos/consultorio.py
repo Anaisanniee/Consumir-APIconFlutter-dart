@@ -1,7 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
-
-# Inicializamos la instancia de SQLAlchemy que compartiremos
-db = SQLAlchemy()
+from modelos.base_datos import db 
 
 class Consultorio(db.Model):
     __tablename__ = 'consultorio'
@@ -10,7 +7,6 @@ class Consultorio(db.Model):
     nombre = db.Column(db.String(100), nullable=False)
     lugar = db.Column(db.String(255), nullable=False)
 
-    # Relación inversa (opcional, ayuda a traer los pacientes de este consultorio)
     pacientes = db.relationship('Paciente', backref='consultorio', lazy=True)
 
     def to_dict(self):
