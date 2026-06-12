@@ -10,6 +10,12 @@ from modelos.medico import Medico
 from modelos.paciente import Paciente
 from modelos.cita import Cita
 
+# === NUEVAS IMPORTACIONES: Controladores ===
+from controladores.cita_controller import cita_bp
+from controladores.consultorio_controller import consultorio_bp
+from controladores.medico_controller import medico_bp
+from controladores.paciente_controller import paciente_bp
+
 # Inicializar la app de Flask y cargar configuraciones
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -22,6 +28,12 @@ CORS(app)
 
 # Vincular la base de datos con la aplicación de Flask
 db.init_app(app)
+
+# Registro de los Blueprints (Rutas) 
+app.register_blueprint(cita_bp, url_prefix='/api')
+app.register_blueprint(consultorio_bp, url_prefix='/api')
+app.register_blueprint(medico_bp, url_prefix='/api')
+app.register_blueprint(paciente_bp, url_prefix='/api')
 
 # Crear las tablas en Laragon automáticamente (si no existen todavía)
 with app.app_context():
