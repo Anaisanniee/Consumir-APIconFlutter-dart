@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGER - Sistema de Gestión de Reservas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { 
+            background-color: #f0f2f5; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        }
+        .navbar { 
+            background: linear-gradient(90deg, #005088 0%, #007bbd 100%); 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+        }
+        .card { 
+            border: none; 
+            border-radius: 15px; 
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05); 
+        }
+        .nav-pills .nav-link.active {
+            background-color: #005088;
+        }
+        .nav-pills .nav-link {
+            color: #005088;
+            font-weight: 600;
+        }
+        .btn-primary { 
+            background-color: #005088; 
+            border: none; 
+            font-weight: 600; 
+            padding: 10px; 
+        }
+        .btn-primary:hover { 
+            background-color: #003d66; 
+        }
+        .input-group-text { 
+            background-color: #e9ecef; 
+            color: #005088; 
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fa-solid fa-hospital me-2"></i> SIGER - Panel de Control
+            </a>
+        </div>
+    </nav>
+
+    <div class="container mb-5">
+        
+        <ul class="nav nav-pills nav-fill gap-2 p-1 small bg-white rounded-5 shadow-sm mb-4" id="hospitalTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active rounded-5" id="citas-tab" data-bs-toggle="tab" data-bs-target="#citas-panel" type="button" role="tab">
+                    <i class="fa-solid fa-calendar-plus me-2"></i> Citas
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link rounded-5" id="pacientes-tab" data-bs-toggle="tab" data-bs-target="#pacientes-panel" type="button" role="tab">
+                    <i class="fa-solid fa-user-injured me-2"></i> Pacientes
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link rounded-5" id="medicos-tab" data-bs-toggle="tab" data-bs-target="#medicos-panel" type="button" role="tab">
+                    <i class="fa-solid fa-user-doctor me-2"></i> Médicos
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link rounded-5" id="consultorios-tab" data-bs-toggle="tab" data-bs-target="#consultorios-panel" type="button" role="tab">
+                    <i class="fa-solid fa-clinic-medical me-2"></i> Consultorios
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="hospitalTabContent">
+            
+            <div class="tab-pane fade show active" id="citas-panel" role="tabpanel">
+                <div class="card p-4">
+                    <h4 class="text-primary fw-bold mb-4"><i class="fa-solid fa-calendar-plus me-2"></i> Agendar Nueva Cita</h4>
+                    <form id="formCitas">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Paciente (paciente_id)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                                    <select class="form-select" id="paciente_id" required>
+                                        <option selected disabled value="">Seleccione el paciente...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Médico Especialista (medico_id)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa-solid fa-user-doctor"></i></span>
+                                    <select class="form-select" id="medico_id" required>
+                                        <option selected disabled value="">Seleccione el médico...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">Fecha (fecha)</label>
+                                <input type="date" class="form-control" id="fecha" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-bold">Hora (hora)</label>
+                                <input type="time" class="form-control" id="hora" required>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <label class="form-label fw-bold">Estado (estado)</label>
+                                <select class="form-select" id="estado">
+                                    <option value="Pendiente" selected>Pendiente</option>
+                                    <option value="Confirmada">Confirmada</option>
+                                    <option value="Cancelada">Cancelada</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary px-4"><i class="fa-solid fa-floppy-disk me-2"></i> Guardar Cita</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="pacientes-panel" role="tabpanel">
+                <div class="card p-4">
+                    <h4 class="text-primary fw-bold mb-4"><i class="fa-solid fa-user-injured me-2"></i> Registrar Paciente</h4>
+                    <form id="formPacientes">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Nombre Completo (nombre)</label>
+                                <input type="text" class="form-control" id="paciente_nombre" maxlength="150" placeholder="Ej. Juan Pérez" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Documento de Identidad (documento)</label>
+                                <input type="text" class="form-control" id="documento" maxlength="20" placeholder="Ej. 12345678" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Correo Electrónico (email)</label>
+                                <input type="email" class="form-control" id="email" maxlength="100" placeholder="juan@example.com">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Teléfono (telefono)</label>
+                                <input type="tel" class="form-control" id="telefono" maxlength="20" placeholder="Ej. 3001234567">
+                            </div>
+                            <div class="col-md-12 mb-4">
+                                <label class="form-label fw-bold">Consultorio Asignado (consultorio_id)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa-solid fa-clinic-medical"></i></span>
+                                    <select class="form-select" id="consultorio_id">
+                                        <option selected value="">Ninguno / Seleccione consultorio...</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary px-4"><i class="fa-solid fa-user-plus me-2"></i> Registrar Paciente</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="medicos-panel" role="tabpanel">
+                <div class="card p-4">
+                    <h4 class="text-primary fw-bold mb-4"><i class="fa-solid fa-user-doctor me-2"></i> Registrar Médico</h4>
+                    <form id="formMedicos">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Nombre del Médico (nombre)</label>
+                                <input type="text" class="form-control" id="medico_nombre" maxlength="150" placeholder="Ej. Dra. María Ortega" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Especialidad (especialidad)</label>
+                                <input type="text" class="form-control" id="especialidad" maxlength="100" placeholder="Ej. Cardiología" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Licencia Médica (licencia)</label>
+                                <input type="text" class="form-control" id="licencia" maxlength="50" placeholder="Ej. LIC-98765" required>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold">Disponibilidad Horario (disponibilidad_horario)</label>
+                                <input type="text" class="form-control" id="disponibilidad_horario" maxlength="255" placeholder="Ej. Lunes a Viernes 08:00-14:00">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary px-4"><i class="fa-solid fa-user-md me-2"></i> Registrar Médico</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="consultorios-panel" role="tabpanel">
+                <div class="card p-4">
+                    <h4 class="text-primary fw-bold mb-4"><i class="fa-solid fa-clinic-medical me-2"></i> Registrar Consultorio</h4>
+                    <form id="formConsultorios">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Nombre / Número (nombre)</label>
+                                <input type="text" class="form-control" id="consultorio_nombre" maxlength="100" placeholder="Ej. Consultorio 101" required>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold">Lugar / Ubicación (lugar)</label>
+                                <input type="text" class="form-control" id="lugar" maxlength="255" placeholder="Ej. Piso 1 - Ala Norte" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary px-4"><i class="fa-solid fa-building-medical me-2"></i> Registrar Consultorio</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
