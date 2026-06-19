@@ -1,0 +1,312 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Médica - Flask",
+    "description": "Documentación de los endpoints para el sistema médico, listos para ser consumidos por Flutter.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000/api",
+      "description": "Servidor Local (Laragon / Flask)"
+    }
+  ],
+  "tags": [
+    { "name": "Pacientes", "description": "Operaciones CRUD para pacientes" },
+    { "name": "Médicos", "description": "Operaciones CRUD para médicos" },
+    { "name": "Consultorios", "description": "Operaciones CRUD para consultorios" },
+    { "name": "Citas", "description": "Operaciones CRUD para citas médicas" }
+  ],
+  "paths": {
+    "/pacientes": {
+      "get": {
+        "tags": ["Pacientes"],
+        "summary": "Obtener todos los pacientes",
+        "responses": {
+          "200": { "description": "Lista de pacientes obtenida con éxito" },
+          "500": { "description": "Error interno del servidor" }
+        }
+      },
+      "post": {
+        "tags": ["Pacientes"],
+        "summary": "Crear un nuevo paciente",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["nombre", "documento"],
+                "properties": {
+                  "nombre": { "type": "string" },
+                  "documento": { "type": "string" },
+                  "email": { "type": "string" },
+                  "telefono": { "type": "string" },
+                  "consultorio_id": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Paciente creado con éxito" },
+          "400": { "description": "Faltan datos obligatorios o duplicados" }
+        }
+      }
+    },
+    "/pacientes/{id}": {
+      "get": {
+        "tags": ["Pacientes"],
+        "summary": "Obtener un paciente por ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "description": "Paciente encontrado" },
+          "404": { "description": "Paciente no encontrado" }
+        }
+      },
+      "put": {
+        "tags": ["Pacientes"],
+        "summary": "Actualizar un paciente por ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nombre": { "type": "string" },
+                  "documento": { "type": "string" },
+                  "email": { "type": "string" },
+                  "telefono": { "type": "string" },
+                  "consultorio_id": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Paciente actualizado" },
+          "404": { "description": "Paciente no encontrado" }
+        }
+      },
+      "delete": {
+        "tags": ["Pacientes"],
+        "summary": "Eliminar un paciente por ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "description": "Paciente eliminado correctamente" },
+          "404": { "description": "Paciente no encontrado" }
+        }
+      }
+    },
+    "/medicos": {
+      "get": {
+        "tags": ["Médicos"],
+        "summary": "Obtener todos los médicos",
+        "responses": {
+          "200": { "description": "Lista de médicos obtenida" }
+        }
+      },
+      "post": {
+        "tags": ["Médicos"],
+        "summary": "Crear un nuevo médico",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["nombre", "especialidad", "licencia"],
+                "properties": {
+                  "nombre": { "type": "string" },
+                  "especialidad": { "type": "string" },
+                  "licencia": { "type": "string" },
+                  "disponibilidad_horario": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Médico creado" },
+          "400": { "description": "Datos inválidos o licencia duplicada" }
+        }
+      }
+    },
+    "/medicos/{id}": {
+      "get": {
+        "tags": ["Médicos"],
+        "summary": "Obtener un médico por ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "description": "Médico encontrado" },
+          "404": { "description": "Médico no encontrado" }
+        }
+      },
+      "put": {
+        "tags": ["Médicos"],
+        "summary": "Actualizar un médico",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nombre": { "type": "string" },
+                  "especialidad": { "type": "string" },
+                  "licencia": { "type": "string" },
+                  "disponibilidad_horario": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Médico actualizado" }
+        }
+      },
+      "delete": {
+        "tags": ["Médicos"],
+        "summary": "Eliminar un médico",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "description": "Médico eliminado" }
+        }
+      }
+    },
+    "/consultorios": {
+      "get": {
+        "tags": ["Consultorios"],
+        "summary": "Obtener todos los consultorios",
+        "responses": {
+          "200": { "description": "Lista de consultorios obtenida" }
+        }
+      },
+      "post": {
+        "tags": ["Consultorios"],
+        "summary": "Crear un nuevo consultorio",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["nombre", "lugar"],
+                "properties": {
+                  "nombre": { "type": "string" },
+                  "lugar": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Consultorio creado" }
+        }
+      }
+    },
+    "/consultorios/{id}": {
+      "get": {
+        "tags": ["Consultorios"],
+        "summary": "Obtener un consultorio por ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "description": "Consultorio encontrado" }
+        }
+      },
+      "put": {
+        "tags": ["Consultorios"],
+        "summary": "Actualizar un consultorio",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nombre": { "type": "string" },
+                  "lugar": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Consultorio actualizado" }
+        }
+      },
+      "delete": {
+        "tags": ["Consultorios"],
+        "summary": "Eliminar un consultorio",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "description": "Consultorio eliminado" }
+        }
+      }
+    },
+    "/citas": {
+      "get": {
+        "tags": ["Citas"],
+        "summary": "Obtener todas las citas",
+        "responses": {
+          "200": { "description": "Lista de citas obtenida" }
+        }
+      },
+      "post": {
+        "tags": ["Citas"],
+        "summary": "Crear una nueva cita",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["paciente_id", "medico_id", "fecha", "hora"],
+                "properties": {
+                  "paciente_id": { "type": "integer" },
+                  "medico_id": { "type": "integer" },
+                  "fecha": { "type": "string", "example": "2026-06-15" },
+                  "hora": { "type": "string", "example": "14:30:00" },
+                  "estado": { "type": "string", "default": "Pendiente" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Cita creada con éxito" },
+          "400": { "description": "Formato de fecha u hora inválido o faltan datos" }
+        }
+      }
+    },
+    "/citas/{id}": {
+      "get": {
+        "tags": ["Citas"],
+        "summary": "Obtener una cita por ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "description": "Cita encontrada" }
+        }
+      },
+      "put": {
+        "tags": ["Citas"],
+        "summary": "Actualizar una cita",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "paciente_id": { "type": "integer" },
+                  "medico_id": { "type": "integer" },
+                  "fecha": { "type": "string", "example": "2026-06-15" }
+                  }
+                }
+            }
+        }
+    } 
+}}}}
+
+                  
