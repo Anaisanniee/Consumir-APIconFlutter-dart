@@ -210,5 +210,104 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+     <script>
+const API_URL = "http://127.0.0.1:5000/api";
+
+document.getElementById("formConsultorios").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    let datos = {
+        nombre: document.getElementById("consultorio_nombre").value,
+        lugar: document.getElementById("lugar").value
+    };
+
+    let res = await fetch(API_URL + "/consultorios", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(datos)
+    });
+
+    let data = await res.json();
+    alert(data.mensaje || "Consultorio guardado");
+
+    e.target.reset();
+});
+
+document.getElementById("formPacientes").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    let datos = {
+        nombre: document.getElementById("paciente_nombre").value,
+        documento: document.getElementById("documento").value,
+        email: document.getElementById("email").value,
+        telefono: document.getElementById("telefono").value,
+        consultorio_id: document.getElementById("consultorio_id").value
+    };
+
+    let res = await fetch(API_URL + "/pacientes", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(datos)
+    });
+
+    let data = await res.json();
+    alert(data.mensaje || "Paciente guardado");
+
+    e.target.reset();
+});
+
+document.getElementById("formMedicos").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    let datos = {
+        nombre: document.getElementById("medico_nombre").value,
+        especialidad: document.getElementById("especialidad").value,
+        licencia: document.getElementById("licencia").value,
+        disponibilidad_horario: document.getElementById("disponibilidad_horario").value
+    };
+
+    let res = await fetch(API_URL + "/medicos", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(datos)
+    });
+
+    let data = await res.json();
+    alert(data.mensaje || "Médico guardado");
+
+    e.target.reset();
+});
+
+document.getElementById("formCitas").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    let datos = {
+        paciente_id: document.getElementById("paciente_id").value,
+        medico_id: document.getElementById("medico_id").value,
+        fecha: document.getElementById("fecha").value,
+        hora: document.getElementById("hora").value,
+        estado: document.getElementById("estado").value
+    };
+
+    let res = await fetch(API_URL + "/citas", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(datos)
+    });
+
+    let data = await res.json();
+    alert(data.mensaje || "Cita guardada");
+
+    e.target.reset();
+});
+</script>
 </body>
 </html>
